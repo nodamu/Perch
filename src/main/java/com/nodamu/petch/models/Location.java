@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
-@Document(collation = "LocationInfo")
+@Document(collection = "LocationInfo")
 public class Location {
     @Id
     private String Id;
