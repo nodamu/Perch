@@ -1,11 +1,11 @@
 package com.nodamu.petch.models;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -28,6 +28,6 @@ public class Property {
     private int numGuests;
     private int numLikes;
     private int numBeds;
-    private List<String> imageLinks;
-
+    @DBRef(lazy = true)
+    private Location location;
 }
