@@ -1,8 +1,6 @@
 package com.nodamu.petch.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,10 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author profnick
  * 3/18/21
  **/
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@Accessors(chain = true)
+@AllArgsConstructor
 @Document(collection = "LocationInfo")
 public class Location {
     @Id
@@ -22,4 +19,6 @@ public class Location {
     private String countryName;
     private double latitude;
     private double longitude;
+
+
 }

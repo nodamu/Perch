@@ -1,13 +1,14 @@
 package com.nodamu.petch.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -15,19 +16,21 @@ import java.util.List;
  * 3/17/21
  **/
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@Accessors(chain = true)
+@AllArgsConstructor
 @Document(collection = "PropertyInfo")
 public class Property {
     @Id
-    private String userId;
+    private String propertyId;
+    private String ownerId;
     private String name;
     private int numRooms;
     private int numGuests;
     private int numLikes;
     private int numBeds;
-    @DBRef(lazy = true)
+    @DBRef(lazy = false)
     private Location location;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 }
