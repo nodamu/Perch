@@ -36,18 +36,19 @@ public class PetchApplication implements CommandLineRunner {
         prop.setPropertyId("A112321");
         prop.setNumBeds(5);
         prop.setNumRooms(6);
-        Location loc = new Location("GAHAN","GH",7.946527,4.56563);
-        locationRepository.insert(loc);
+        Location loc = new Location("GH",7.946527,4.56563);
+//        locationRepository.insert(loc);
         prop.setLocation(loc);
         prop.setEndTime(LocalDateTime.now());
         prop.setStartTime(LocalDateTime.now());
         prop.setNumGuests(3);
         prop.setOwnerId("A23456");
+//        propRepository.insert(prop);
 
-        propRepository.insert(prop);
+//      propRepository.findAll().forEach(System.out::println);
+      String country = propRepository.findById("605bbfdc5ca86507af650cfe").get().getLocation().getCountryName();
+      System.out.println(country);
 
-//        List<Property> property =  propRepository.findByNumRooms(2);
-        
 
     }
 }

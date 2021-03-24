@@ -18,10 +18,10 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Document(collection = "PropertyInfo")
 public class Property {
     @Id
+    private String id;
     private String propertyId;
     private String ownerId;
     private String name;
@@ -29,8 +29,10 @@ public class Property {
     private int numGuests;
     private int numLikes;
     private int numBeds;
-    @DBRef(lazy = false)
+    @DBRef
     private Location location;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+
+
 }
