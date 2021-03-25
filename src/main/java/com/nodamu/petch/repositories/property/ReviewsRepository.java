@@ -1,4 +1,4 @@
-package com.nodamu.petch.repositories;
+package com.nodamu.petch.repositories.property;
 
 import com.nodamu.petch.models.property.Reviews;
 import org.springframework.data.mongodb.repository.MongoRepository;

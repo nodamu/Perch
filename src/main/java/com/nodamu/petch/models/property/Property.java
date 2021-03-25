@@ -1,12 +1,14 @@
 package com.nodamu.petch.models.property;
 
+import com.nodamu.petch.models.users.User;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -23,7 +25,8 @@ public class Property {
 
     private String propertyId;
 
-    private String ownerId;
+    @DBRef
+    private User owner;
 
     @Indexed(unique = true, direction = IndexDirection.DESCENDING)
     private String propertyName;
@@ -37,10 +40,13 @@ public class Property {
     private int numBeds;
 
     @Singular private List<String> amenities;
+
     @DBRef
     private Location location;
+
     @DBRef
     @Singular private List<Reviews> reviews;
-    private LocalDateTime availableTime;
+
+    private LocalDate availableDate;
 
 }
