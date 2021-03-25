@@ -1,4 +1,4 @@
-package com.nodamu.petch.models;
+package com.nodamu.petch.models.property;
 
 import lombok.*;
 import lombok.experimental.Accessors;
