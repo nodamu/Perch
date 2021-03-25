@@ -1,6 +1,6 @@
 package com.nodamu.petch.repositories;
 
-import com.nodamu.petch.models.Property;
+import com.nodamu.petch.models.property.Property;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

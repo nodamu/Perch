@@ -1,23 +1,21 @@
-package com.nodamu.petch.models;
+package com.nodamu.petch.models.property;
 
+import com.nodamu.petch.models.Location;
 import lombok.*;
-import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author profnick
  * 3/17/21
  **/
 
-@Data
-@NoArgsConstructor
+@ToString
+@Builder
 @Document(collection = "PropertyInfo")
 public class Property {
     @Id
@@ -29,10 +27,11 @@ public class Property {
     private int numGuests;
     private int numLikes;
     private int numBeds;
+    @Singular private List<String> amenities;
     @DBRef
     private Location location;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-
+    @DBRef
+    @Singular private List<Reviews> reviews;
+    private LocalDateTime availableTime;
 
 }
