@@ -23,8 +23,6 @@ public class Property {
     @Id
     private String id;
 
-    private String propertyId;
-
     @DBRef
     private User owner;
 
