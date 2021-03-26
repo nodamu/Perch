@@ -1,7 +1,12 @@
 package com.nodamu.petch.dto.property;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -10,10 +15,37 @@ import java.util.List;
  **/
 
 @Data
+@NoArgsConstructor
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PropertyDto {
+
+    @NotBlank
+    @Size(min = 4)
+    private String propertyName;
+
+    private String ownerId;
+
+    @Min(1)
+    @NotNull
     private int numRooms;
+
     private int numLikes;
+
+    @Min(1)
+    @NotNull
     private int numGuests;
+
+    @Min(1)
+    @NotNull
     private int numBeds;
+
+    @NotEmpty
+    @NotNull
     private List<String> amenities;
+
+    private LocationDto location;
+
+    private LocalDate availableDate;
+
 }

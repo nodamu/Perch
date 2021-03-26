@@ -16,6 +16,8 @@ import java.util.List;
  * 3/17/21
  **/
 
+@Getter
+@Setter
 @ToString
 @Builder
 @Document(collection = "PropertyInfo")
