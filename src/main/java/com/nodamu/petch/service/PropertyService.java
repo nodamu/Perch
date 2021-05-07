@@ -28,13 +28,12 @@ public class PropertyService {
 
     private final PropertyRepository propertyRepository;
 
-    private final UserRepository userRepository;
 
-    public PropertyService(PropertyRepository propertyRepository, UserRepository userRepository) {
+    public PropertyService(PropertyRepository propertyRepository) {
         this.propertyRepository = propertyRepository;
-        this.userRepository = userRepository;
     }
 
+    // Get properties by available date
     public List<Property> getAllPropertiesByDateAvailable(LocalDate date){
         Optional<List<Property>> properties = Optional.ofNullable(propertyRepository.findByAvailableDate(date));
         return properties.orElse(null);
@@ -43,16 +42,16 @@ public class PropertyService {
     // Adds a new Property to the database
     public Property addProperty(PropertyDto propertyDto){
         Property property = toProperty(propertyDto);
-        Optional<User> user = userRepository.findById(propertyDto.getOwnerId());
-        user.ifPresent(property::setOwner);
-//        logger.debug("New property added :: {} , {}",property.getOwner().getId(), property.getId());
+        logger.info("Property added with ID {}",property.getId());
         return this.propertyRepository.save(property);
     }
 
-    // Get all properties
-    public List<Property> getAllProperties() {
-        return this.propertyRepository.findAll();
+    // Get all properties by OwnerID
+    public List<Property> getAllPropertiesByOwnerId(String ownerId) {
+        logger.info("Property request for owner {}",ownerId);
+        return this.propertyRepository.findPropertyByOwnerId(ownerId);
     }
+
 
 
 
