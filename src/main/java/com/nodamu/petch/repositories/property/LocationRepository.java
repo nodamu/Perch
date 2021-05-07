@@ -1,0 +1,13 @@
+package com.nodamu.petch.repositories.property;
+
+import com.nodamu.petch.models.property.Location;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+/**
+ * @author profnick
+ * 3/22/21
+ **/
+@Repository
+public interface LocationRepository extends MongoRepository<Location,String> {
+}
