@@ -25,10 +25,10 @@ public class Property {
     @Id
     private String id;
 
-    @DBRef
-    private User owner;
+    @Indexed(name = "owner_id_index",unique = true, direction = IndexDirection.DESCENDING)
+    private String ownerId;
 
-    @Indexed(unique = true, direction = IndexDirection.DESCENDING)
+    @Indexed(name = "property_name_index",unique = true, direction = IndexDirection.DESCENDING)
     private String propertyName;
 
     private int numRooms;

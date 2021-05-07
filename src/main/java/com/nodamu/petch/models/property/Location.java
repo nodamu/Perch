@@ -18,14 +18,16 @@ public class Location {
     @Id
     private String id;
 
-    @Indexed(direction = IndexDirection.DESCENDING)
+    @Indexed(name = "country_name_index",direction = IndexDirection.DESCENDING)
     private String countryName;
 
-    @Indexed(direction = IndexDirection.DESCENDING)
+    @Indexed(name="city_name_index",direction = IndexDirection.DESCENDING)
     private String cityName;
 
     private double latitude;
     private double longitude;
+
+    private String ghPostCode;
 
     public Location(String countryName, String cityName, double latitude, double longitude) {
         this.countryName = countryName;
