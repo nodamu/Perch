@@ -19,12 +19,6 @@ public  class PropertyMapper {
                             .amenities(propertyDto.getAmenities())
                             .ownerId(propertyDto.getOwnerId())
                             .availableDate(propertyDto.getAvailableDate())
-                            .location(new Location(
-                                    propertyDto.getLocation().getCountryName(),
-                                    propertyDto.getLocation().getCityName(),
-                                    propertyDto.getLocation().getLatitude(),
-                                    propertyDto.getLocation().getLatitude()
-                                    ))
                             .build();
     }
 }

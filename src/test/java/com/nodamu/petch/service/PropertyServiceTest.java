@@ -4,6 +4,7 @@ import com.nodamu.petch.dto.property.LocationDto;
 import com.nodamu.petch.dto.property.PropertyDto;
 import com.nodamu.petch.models.property.Property;
 import com.nodamu.petch.models.users.User;
+import com.nodamu.petch.repositories.property.LocationRepository;
 import com.nodamu.petch.repositories.property.PropertyRepository;
 import com.nodamu.petch.repositories.users.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -32,8 +33,10 @@ public class PropertyServiceTest {
     //Mock dependencies
     private final UserRepository userRepository = mock(UserRepository.class);
     private final PropertyRepository propertyRepository = mock(PropertyRepository.class);
+    private final LocationRepository locationRepository = mock(LocationRepository.class);
 
-    private final PropertyService propertyService = new PropertyService(propertyRepository);
+
+    private final PropertyService propertyService = new PropertyService(propertyRepository,locationRepository);
 
     @Test
     void saveNewProperty(){

@@ -1,12 +1,11 @@
 package com.nodamu.petch.service;
 
 import com.nodamu.petch.dto.property.PropertyDto;
+import com.nodamu.petch.models.property.Location;
 import com.nodamu.petch.models.property.Property;
-import com.nodamu.petch.models.users.User;
 import com.nodamu.petch.repositories.property.LocationRepository;
 import com.nodamu.petch.repositories.property.PropertyRepository;
-import com.nodamu.petch.repositories.property.ReviewsRepository;
-import com.nodamu.petch.repositories.users.UserRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,9 +27,12 @@ public class PropertyService {
 
     private final PropertyRepository propertyRepository;
 
+    private final LocationRepository locationRepository;
 
-    public PropertyService(PropertyRepository propertyRepository) {
+
+    public PropertyService(PropertyRepository propertyRepository,LocationRepository locationRepository) {
         this.propertyRepository = propertyRepository;
+        this.locationRepository = locationRepository;
     }
 
     // Get properties by available date
@@ -41,9 +43,19 @@ public class PropertyService {
 
     // Adds a new Property to the database
     public Property addProperty(PropertyDto propertyDto){
+        Location location = new Location(propertyDto.getLocation().getCountryName(),
+                                        propertyDto.getLocation().getCityName(),
+                                        propertyDto.getLocation().getLatitude(),
+                                        propertyDto.getLocation().getLongitude()
+                                        );
+
+        locationRepository.save(location);
+
         Property property = toProperty(propertyDto);
-        logger.info("Property added with ID {}",property.getId());
-        return this.propertyRepository.save(property);
+        property.setLocation(location);
+        Property newProp = this.propertyRepository.save(property);
+        logger.info("Property added with ID {}",newProp.getId());
+        return newProp;
     }
 
     // Get all properties by OwnerID
