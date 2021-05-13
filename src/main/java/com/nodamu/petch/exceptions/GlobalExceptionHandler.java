@@ -60,6 +60,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildErrorResponse(exception, "Unknown error occurred", HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
+    @ExceptionHandler(PropertyDoesNotExistException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object> handleNoPropertyFound(Exception exception,WebRequest request){
+        log.error("Property with ID : {}, does not exist {}",request.getParameterValues("propertyId"),exception);
+        return buildErrorResponse(exception, "Property does not exist", HttpStatus.NOT_FOUND, request);
+
+    }
+
     @Override
     public ResponseEntity<Object> handleExceptionInternal(Exception ex,
                                                          Object body,
