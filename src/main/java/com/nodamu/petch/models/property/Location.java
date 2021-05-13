@@ -27,8 +27,6 @@ public class Location {
     private double latitude;
     private double longitude;
 
-    private String ghPostCode;
-
     public Location(String countryName, String cityName, double latitude, double longitude) {
         this.countryName = countryName;
         this.cityName = cityName;

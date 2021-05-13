@@ -25,7 +25,7 @@ dependencies {
     implementation "io.springfox:springfox-boot-starter:3.0.0"
     implementation 'org.springdoc:springdoc-openapi-ui:1.5.2'
     implementation 'org.springdoc:springdoc-openapi-ui:1.5.2'
-
+    implementation 'joda-time:joda-time:2.9.7'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

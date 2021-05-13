@@ -1,5 +1,6 @@
 package com.nodamu.petch.dto.property;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -46,6 +47,7 @@ public class PropertyDto {
 
     private LocationDto location;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate availableDate;
 
 }

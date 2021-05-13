@@ -1,6 +1,7 @@
 package com.nodamu.petch.service;
 
 import com.nodamu.petch.dto.property.PropertyDto;
+import com.nodamu.petch.exceptions.PropertyDoesNotExistException;
 import com.nodamu.petch.models.property.Location;
 import com.nodamu.petch.models.property.Property;
 import com.nodamu.petch.repositories.property.LocationRepository;
@@ -9,11 +10,13 @@ import com.nodamu.petch.repositories.property.PropertyRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static com.nodamu.petch.dto.mappers.LocationMapper.toLocation;
 import static com.nodamu.petch.dto.mappers.PropertyMapper.toProperty;
 
 /**
@@ -36,12 +39,14 @@ public class PropertyService {
     }
 
     // Get properties by available date
-    public List<Property> getAllPropertiesByDateAvailable(LocalDate date){
-        Optional<List<Property>> properties = Optional.ofNullable(propertyRepository.findByAvailableDate(date));
+    public List<Property> getAllPropertiesByDateAvailable(String date){
+
+        Optional<List<Property>> properties = Optional.ofNullable(propertyRepository.findByAvailableDate(LocalDate.parse(date)));
         return properties.orElse(null);
     }
 
     // Adds a new Property to the database
+    @Transactional
     public Property addProperty(PropertyDto propertyDto){
         var location = new Location(propertyDto.getLocation().getCountryName(),
                                         propertyDto.getLocation().getCityName(),
@@ -64,6 +69,21 @@ public class PropertyService {
         return this.propertyRepository.findPropertyByOwnerId(ownerId);
     }
 
+    // Update Property info
+    @Transactional
+    public Property updateProperty(PropertyDto propertyDto, String propertyId) {
+        var newProperty  = toProperty(propertyDto);
+        var property = this.propertyRepository.findById(propertyId);
+        if(property.isEmpty()){
+            throw new PropertyDoesNotExistException();
+        }
+        newProperty.setId(propertyId);
+        newProperty.setLocation(toLocation(propertyDto,property.get().getLocation().getId()));
+        locationRepository.save(newProperty.getLocation());
+
+        logger.info("Updating property with id : {}",propertyId);
+        return this.propertyRepository.save(newProperty);
+    }
 
 
 

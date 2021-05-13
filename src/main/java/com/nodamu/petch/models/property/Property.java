@@ -1,14 +1,19 @@
 package com.nodamu.petch.models.property;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nodamu.petch.models.users.User;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -48,5 +53,13 @@ public class Property {
     @Singular private List<Reviews> reviews;
 
     private LocalDate availableDate;
+
+    @CreatedDate
+    @JsonIgnore
+    private org.joda.time.LocalDateTime created;
+
+    @LastModifiedDate
+    @JsonIgnore
+    private org.joda.time.LocalDateTime updated;
 
 }
