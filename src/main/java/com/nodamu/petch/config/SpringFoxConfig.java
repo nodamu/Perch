@@ -32,8 +32,8 @@ public class SpringFoxConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "Petch APP",
-                "A home sharing application for the new age",
+                "Perch App",
+                "A home sharing application for the modern society",
                 "v1",
                 "Terms of service",
                 new Contact("Nicholas Adamu", "www.nickadamu.live", "nickadamu@gmail.com"),
