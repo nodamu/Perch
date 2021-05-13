@@ -28,7 +28,6 @@ public class PropertyDto {
     private String ownerId;
 
     @Min(1)
-    @NotNull
     private int numRooms;
 
     private int numLikes;

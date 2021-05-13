@@ -43,7 +43,7 @@ public class PropertyService {
 
     // Adds a new Property to the database
     public Property addProperty(PropertyDto propertyDto){
-        Location location = new Location(propertyDto.getLocation().getCountryName(),
+        var location = new Location(propertyDto.getLocation().getCountryName(),
                                         propertyDto.getLocation().getCityName(),
                                         propertyDto.getLocation().getLatitude(),
                                         propertyDto.getLocation().getLongitude()
@@ -53,7 +53,7 @@ public class PropertyService {
 
         Property property = toProperty(propertyDto);
         property.setLocation(location);
-        Property newProp = this.propertyRepository.save(property);
+        var newProp = this.propertyRepository.save(property);
         logger.info("Property added with ID {}",newProp.getId());
         return newProp;
     }
