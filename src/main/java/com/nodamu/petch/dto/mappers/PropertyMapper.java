@@ -17,7 +17,6 @@ public  class PropertyMapper {
                             .numRooms(propertyDto.getNumRooms())
                             .numGuests(propertyDto.getNumGuests())
                             .amenities(propertyDto.getAmenities())
-                            .ownerId(propertyDto.getOwnerId())
                             .availableDate(propertyDto.getAvailableDate())
                             .build();
     }

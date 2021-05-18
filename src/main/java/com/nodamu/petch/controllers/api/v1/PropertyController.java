@@ -6,11 +6,18 @@ import com.nodamu.petch.service.PropertyService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.FutureOrPresent;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -27,13 +34,16 @@ public class PropertyController {
 
    private final PropertyService propertyService;
 
+
     public PropertyController(PropertyService propertyService) {
         this.propertyService = propertyService;
     }
 
     @PostMapping
-    public ResponseEntity<String> addProperty(@Valid @RequestBody PropertyDto propertyDto){
-        String id = propertyService.addProperty(propertyDto).getId();
+    public ResponseEntity<String> addProperty(@Valid @RequestBody PropertyDto propertyDto,
+                                              @AuthenticationPrincipal Jwt principal){
+
+        String id = propertyService.addProperty(propertyDto,principal.getSubject()).getId();
         return new ResponseEntity<String>(id, HttpStatus.OK);
     }
 
@@ -46,9 +56,12 @@ public class PropertyController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/getPropertyByAvailabeDate")
+    @GetMapping("/getPropertyByAvailableDate")
     public ResponseEntity<List<Property>> getAllPropertiesByDateAvailable(
-            @RequestParam("availableDate") String availableDate){
+            @RequestParam("availableDate")
+            @FutureOrPresent(message = "Date must be current or in the future")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+             LocalDate availableDate){
         List<Property> properties = propertyService.getAllPropertiesByDateAvailable(availableDate);
         if(!properties.isEmpty()){
             return ResponseEntity.ok().body(properties);

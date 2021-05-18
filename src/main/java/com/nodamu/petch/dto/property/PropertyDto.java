@@ -25,9 +25,6 @@ public class PropertyDto {
     @Size(min = 4)
     private String propertyName;
 
-    @NotEmpty(message = "Owner ID required")
-    private String ownerId;
-
     @Min(1)
     private int numRooms;
 
