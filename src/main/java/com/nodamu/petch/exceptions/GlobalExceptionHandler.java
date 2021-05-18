@@ -1,6 +1,5 @@
 package com.nodamu.petch.exceptions;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,10 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -67,6 +66,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildErrorResponse(exception, "Property does not exist", HttpStatus.NOT_FOUND, request);
 
     }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseEntity<Object> handleAccessDenied(AccessDeniedException e, WebRequest request){
+        log.error("User forbidden to make request");
+        return  buildErrorResponse(e,HttpStatus.FORBIDDEN,request);
+    }
+
+//    @ExceptionHandler(.class)
+//    @ResponseStatus(HttpStatus.FORBIDDEN)
+//    public ResponseEntity<Object> handleUnAuthorized(AccessDeniedException e, WebRequest request){
+//        log.error("User unauthorized to make request");
+//        return  buildErrorResponse(e,HttpStatus.UNAUTHORIZED,request);
+//    }
 
     @Override
     public ResponseEntity<Object> handleExceptionInternal(Exception ex,
