@@ -34,7 +34,8 @@ public class OauthResourceServerConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests(authorizeRequests -> authorizeRequests
                         .antMatchers("/api-docs/**","/swagger-config/**","/swagger-ui/**","/v2/**").permitAll()
-                        .antMatchers(HttpMethod.PUT,"/petch/api/v1/property/updateProperty").hasRole("perch_host")
+                        .antMatchers(HttpMethod.PUT,"/petch/api/v1/property/updateProperty").hasAnyRole("perch_host","perch_admin")
+                        .mvcMatchers(HttpMethod.DELETE,"/petch/api/v1/property/deleteProperty/**").hasAnyRole("perch_host","perch_admin")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2ResourceServer ->

@@ -4,8 +4,8 @@ import com.nodamu.petch.dto.property.PropertyDto;
 import com.nodamu.petch.models.property.Property;
 import com.nodamu.petch.service.PropertyService;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotEmpty;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
@@ -41,7 +42,7 @@ public class PropertyController {
 
     @PostMapping
     public ResponseEntity<String> addProperty(@Valid @RequestBody PropertyDto propertyDto,
-                                              @AuthenticationPrincipal Jwt principal){
+                                              @ApiParam(hidden = true) @AuthenticationPrincipal Jwt principal){
 
         String id = propertyService.addProperty(propertyDto,principal.getSubject()).getId();
         return new ResponseEntity<String>(id, HttpStatus.OK);
@@ -59,9 +60,9 @@ public class PropertyController {
     @GetMapping("/getPropertyByAvailableDate")
     public ResponseEntity<List<Property>> getAllPropertiesByDateAvailable(
             @RequestParam("availableDate")
-            @FutureOrPresent(message = "Date must be current or in the future")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-             LocalDate availableDate){
+            @FutureOrPresent(message = "Date must be current or in the future")
+            LocalDate availableDate){
         List<Property> properties = propertyService.getAllPropertiesByDateAvailable(availableDate);
         if(!properties.isEmpty()){
             return ResponseEntity.ok().body(properties);
@@ -76,5 +77,14 @@ public class PropertyController {
 
         return ResponseEntity.ok().body(property);
     }
+
+    // TODO run test for this endpoint
+    @DeleteMapping("/deleteProperty/{propertyId}")
+    public void deleteProperty(
+            @NotEmpty @PathVariable String propertyId,
+            @NotEmpty @RequestParam("ownerId") String ownerId,
+           @ApiParam(hidden = true) @AuthenticationPrincipal Jwt principal){
+        this.propertyService.deleteProperty(propertyId,principal,ownerId);
+        }
 
 }

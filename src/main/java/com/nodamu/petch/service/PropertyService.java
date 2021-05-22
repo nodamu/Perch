@@ -8,6 +8,7 @@ import com.nodamu.petch.repositories.property.PropertyRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,7 @@ public class PropertyService {
 
     // Adds a new Property to the database
     @Transactional
+    @PreAuthorize("hasRole('perch_host')")
     public Property addProperty(PropertyDto propertyDto,String ownerId){
         var location = new Location(propertyDto.getLocation().getCountryName(),
                                         propertyDto.getLocation().getCityName(),
@@ -73,6 +75,7 @@ public class PropertyService {
 
     // Update Property info
     @Transactional
+    @PreAuthorize("hasAnyRole('perch_host','perch_admin')")
     public Property updateProperty(PropertyDto propertyDto, String propertyId) {
         var newProperty  = toProperty(propertyDto);
         var property = this.propertyRepository.findById(propertyId);
@@ -82,12 +85,20 @@ public class PropertyService {
         newProperty.setId(propertyId);
         newProperty.setLocation(toLocation(propertyDto,property.get().getLocation().getId()));
         locationRepository.save(newProperty.getLocation());
-
         logger.info("Updating property with id : {}",propertyId);
         return this.propertyRepository.save(newProperty);
     }
 
-
+    // Delete property
+    @Transactional
+    @PreAuthorize("hasAnyRole('perch_host','perch_admin') and #ownerId == principal.subject")
+    public void deleteProperty(String propertyId,@AuthenticationPrincipal Jwt principal,String ownerId){
+        Optional<Property> prop = this.propertyRepository.findById(propertyId);
+        if (prop.isPresent()){
+            logger.info("Property with ID {} deleted", prop.get().getId());
+            this.propertyRepository.delete(prop.get());
+        }
+    }
 
 
 }
