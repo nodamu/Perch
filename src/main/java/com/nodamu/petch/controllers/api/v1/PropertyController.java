@@ -87,4 +87,17 @@ public class PropertyController {
         this.propertyService.deleteProperty(propertyId,principal,ownerId);
         }
 
+    @GetMapping("/getPropertyByLocation")
+    public ResponseEntity<List<Property>> findPropertyNear(
+                                            @RequestParam("latitude") double latitude,
+                                            @RequestParam("longitude") double longitude,
+                                            @RequestParam("cityName") String cityName,
+                                            @RequestParam("countryName") String countryName,
+                                            @RequestParam("distance") double distance
+                                                           ){
+       List<Property> properties = this.propertyService.findPropertyNear(latitude,longitude,cityName,countryName,distance);
+
+       return ResponseEntity.ok(properties);
+    }
+
 }

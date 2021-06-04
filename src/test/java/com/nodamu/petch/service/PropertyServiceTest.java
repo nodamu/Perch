@@ -8,8 +8,6 @@ import com.nodamu.petch.repositories.property.LocationRepository;
 import com.nodamu.petch.repositories.property.PropertyRepository;
 import com.nodamu.petch.repositories.users.UserRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
 
 import java.time.LocalDate;
@@ -38,7 +36,7 @@ public class PropertyServiceTest {
     private final LocationRepository locationRepository = mock(LocationRepository.class);
 
 
-    private final PropertyService propertyService = new PropertyService(propertyRepository,locationRepository);
+    private final PropertyService propertyService = new PropertyService(propertyRepository,locationRepository, locationService);
 
     @Test
     void saveNewProperty(){

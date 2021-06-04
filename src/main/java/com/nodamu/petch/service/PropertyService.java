@@ -8,6 +8,10 @@ import com.nodamu.petch.repositories.property.PropertyRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -17,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.nodamu.petch.dto.mappers.LocationMapper.toLocation;
 import static com.nodamu.petch.dto.mappers.PropertyMapper.toProperty;
@@ -34,10 +39,13 @@ public class PropertyService {
 
     private final LocationRepository locationRepository;
 
+    private final LocationService locationService;
 
-    public PropertyService(PropertyRepository propertyRepository,LocationRepository locationRepository) {
+
+    public PropertyService(PropertyRepository propertyRepository, LocationRepository locationRepository, LocationService locationService) {
         this.propertyRepository = propertyRepository;
         this.locationRepository = locationRepository;
+        this.locationService = locationService;
     }
 
     // Get properties by available date
@@ -53,9 +61,8 @@ public class PropertyService {
     public Property addProperty(PropertyDto propertyDto,String ownerId){
         var location = new Location(propertyDto.getLocation().getCountryName(),
                                         propertyDto.getLocation().getCityName(),
-                                        propertyDto.getLocation().getLatitude(),
-                                        propertyDto.getLocation().getLongitude()
-                                        );
+                                        new GeoJsonPoint(propertyDto.getLocation().getLatitude()
+                                        ,propertyDto.getLocation().getLongitude()));
 
         locationRepository.save(location);
 
@@ -70,7 +77,7 @@ public class PropertyService {
     // Get all properties by OwnerID
     public List<Property> getAllPropertiesByOwnerId(String ownerId) {
         logger.info("Property request for owner {}",ownerId);
-        return this.propertyRepository.findPropertyByOwnerId(ownerId);
+        return this.propertyRepository.findPropertyByOwnerId(ownerId);  
     }
 
     // Update Property info
@@ -100,5 +107,16 @@ public class PropertyService {
         }
     }
 
+    public List<Property> findPropertyNear(double longitude, double latitude,String cityName,String countryName,double distance){
+        Point point = new Point(longitude,latitude);
+//        Location location = new Location(countryName,cityName,point);
+        List<Location> locations = this.locationService.findLocationNear(point,new Distance(distance, Metrics.KILOMETERS));
+
+        List<Property> props = locations.parallelStream()
+                .map(this.propertyRepository::findByLocation)
+                .collect(Collectors.toList());
+
+        return props;
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.nodamu.petch.repositories.property;
 
+import com.nodamu.petch.models.property.Location;
 import com.nodamu.petch.models.property.Property;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -30,4 +32,7 @@ public interface PropertyRepository extends MongoRepository<Property,String>  {
 
     List<Property> findByAvailableDate(LocalDate date);
 
+    List<Property> findByLocation_CoordinatesNear(GeoJsonPoint location_coordinates);
+
+    Property findByLocation(Location location);
 }
