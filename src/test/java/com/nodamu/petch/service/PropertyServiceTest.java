@@ -6,7 +6,6 @@ import com.nodamu.petch.models.property.Property;
 import com.nodamu.petch.models.users.User;
 import com.nodamu.petch.repositories.property.LocationRepository;
 import com.nodamu.petch.repositories.property.PropertyRepository;
-import com.nodamu.petch.repositories.users.UserRepository;
 import org.junit.jupiter.api.Test;
 
 
