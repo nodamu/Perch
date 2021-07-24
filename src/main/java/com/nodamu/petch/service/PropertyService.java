@@ -105,18 +105,17 @@ public class PropertyService {
             logger.info("Property with ID {} deleted", prop.get().getId());
             this.propertyRepository.delete(prop.get());
         }
+        logger.info("Property with ID: {} not found",propertyId);
     }
 
-    public List<Property> findPropertyNear(double longitude, double latitude,String cityName,String countryName,double distance){
+    public List<Property> findPropertyNear(double longitude, double latitude,double distance){
         Point point = new Point(longitude,latitude);
 //        Location location = new Location(countryName,cityName,point);
         List<Location> locations = this.locationService.findLocationNear(point,new Distance(distance, Metrics.KILOMETERS));
 
-        List<Property> props = locations.parallelStream()
+        return locations.parallelStream()
                 .map(this.propertyRepository::findByLocation)
                 .collect(Collectors.toList());
-
-        return props;
     }
 
 }
