@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 
 public class PropertyServiceTest {
     //Mock dependencies
-    private final UserRepository userRepository = mock(UserRepository.class);
+//    private final UserRepository userRepository = mock(UserRepository.class);
     private final PropertyRepository propertyRepository = mock(PropertyRepository.class);
     private final LocationRepository locationRepository = mock(LocationRepository.class);
 

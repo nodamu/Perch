@@ -18,4 +18,5 @@ public interface LocationRepository extends MongoRepository<Location,String> {
     public List<Location> findByCoordinatesNear(Point coordinates, Distance distance);
 
     public List<Location> findByCityNameAndCoordinatesNear(String cityName,Point coordinates, Distance distance);
+
 }

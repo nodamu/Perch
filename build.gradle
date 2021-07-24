@@ -15,7 +15,9 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
-
+    ext {
+        set('springCloudVersion', "2020.0.1")
+    }
 repositories {
     mavenCentral()
 }
@@ -27,13 +29,23 @@ dependencies {
     implementation "io.springfox:springfox-boot-starter:3.0.0"
     implementation 'org.springdoc:springdoc-openapi-ui:1.5.2'
     implementation 'joda-time:joda-time:2.9.7'
+    implementation "org.springframework.cloud:spring-cloud-starter-bootstrap"
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-
+//    implementation "org.springframework.cloud:spring-cloud-starter-kubernetes"
+//    implementation "org.springframework.cloud:spring-cloud-starter-kubernetes-config"
+    implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-all'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 test {

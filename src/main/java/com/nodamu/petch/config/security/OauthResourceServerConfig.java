@@ -33,7 +33,7 @@ public class OauthResourceServerConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .antMatchers("/api-docs/**","/swagger-config/**","/swagger-ui/**","/v2/**").permitAll()
+                        .antMatchers("/actuator/**","/api-docs/**","/swagger-config/**","/swagger-ui/**","/v2/**").permitAll()
                         .antMatchers(HttpMethod.PUT,"/petch/api/v1/property/updateProperty").hasAnyRole("perch_host","perch_admin")
                         .mvcMatchers(HttpMethod.DELETE,"/petch/api/v1/property/deleteProperty/**").hasAnyRole("perch_host","perch_admin")
                         .anyRequest().authenticated()

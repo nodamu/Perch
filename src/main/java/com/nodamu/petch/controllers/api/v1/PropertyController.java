@@ -95,7 +95,7 @@ public class PropertyController {
                                             @RequestParam("countryName") String countryName,
                                             @RequestParam("distance") double distance
                                                            ){
-       List<Property> properties = this.propertyService.findPropertyNear(latitude,longitude,cityName,countryName,distance);
+       List<Property> properties = this.propertyService.findPropertyNear(latitude,longitude,distance);
 
        return ResponseEntity.ok(properties);
     }
